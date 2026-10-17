@@ -10,12 +10,10 @@ internal static class BehaviorTests
 {
     internal static void Run()
     {
-        Program.Require(ContactSelection.IsUnknownShip(MapVisualType.Surface, MapVisualPosture.Unknown, false), "Unknown surface contact must be eligible.");
+        Program.Require(ContactSelection.IsUnknownContact(MapVisualPosture.Unknown, false), "An unidentified contact with unknown allegiance must be eligible.");
         foreach (var posture in new[] { MapVisualPosture.Allied, MapVisualPosture.Enemy, MapVisualPosture.Neutral })
-            Program.Require(!ContactSelection.IsUnknownShip(MapVisualType.Surface, posture, false), "Known allegiance must be excluded.");
-        foreach (var type in new[] { MapVisualType.Air, MapVisualType.Helicopter, MapVisualType.Submarine, MapVisualType.Missile, MapVisualType.Torpedo, MapVisualType.Invisible, MapVisualType.Biologic })
-            Program.Require(!ContactSelection.IsUnknownShip(type, MapVisualPosture.Unknown, false), "Non-surface contact must be excluded.");
-        Program.Require(!ContactSelection.IsUnknownShip(MapVisualType.Surface, MapVisualPosture.Unknown, true), "Already identified contact must be excluded.");
+            Program.Require(!ContactSelection.IsUnknownContact(posture, false), "Known allegiance must be excluded.");
+        Program.Require(!ContactSelection.IsUnknownContact(MapVisualPosture.Unknown, true), "Already identified contact must be excluded.");
         var contacts = new[] { (Id: 1, Eligible: false), (Id: 2, Eligible: true), (Id: 1, Eligible: true), (Id: 2, Eligible: true) }.ToList();
         var snapshot = ContactSelection.Snapshot(contacts, contact => contact.Eligible, contact => contact.Id);
         contacts.Clear();

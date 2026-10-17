@@ -6,8 +6,8 @@ namespace BulkIdentificationRequests;
 
 internal static class ContactSelection
 {
-    internal static bool IsUnknownShip(MapVisualType type, MapVisualPosture posture, bool identified) =>
-        type == MapVisualType.Surface && posture == MapVisualPosture.Unknown && !identified;
+    internal static bool IsUnknownContact(MapVisualPosture posture, bool identified) =>
+        posture == MapVisualPosture.Unknown && !identified;
 
     // Snapshot and deduplicate before requests can update the game's observable map collection.
     internal static List<T> Snapshot<T, TKey>(IEnumerable<T> knownContacts, Func<T, bool> eligible, Func<T, TKey> key)

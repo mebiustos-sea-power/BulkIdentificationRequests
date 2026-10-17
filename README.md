@@ -1,8 +1,8 @@
 # Bulk Identification Requests
 
-Version **0.1.0**. Plugin ID: `mebiustos.bulkidentificationrequests`. Package folder: `BulkIdentificationRequests`.
+Version **0.1.1**. Plugin ID: `mebiustos.bulkidentificationrequests`. Package folder: `BulkIdentificationRequests`.
 
-Adds **Request identification from all unknown ships** immediately below **Orders > Identify** in a player unit's right-click menu. With Japanese selected, the label is **全不明艦の身元を求める**. Other game languages use English for the added label and tooltip. The same unit menu is used by the map and formation manager.
+Adds **Request identification from all unknown contacts** immediately below **Orders > Identify** in a player unit's right-click menu. With Japanese selected, the label is **全不明接触の身元を求める**. Other game languages use English for the added label and tooltip. The same unit menu is used by the map and formation manager.
 
 ## Installation and use
 
@@ -11,7 +11,7 @@ Adds **Request identification from all unknown ships** immediately below **Order
 3. Enable **Anchor Chain** and **Bulk Identification Requests** in the game's mod manager, then restart the game.
 4. Right-click the player-controlled unit that should transmit, open **Orders**, and select the new command. The right-clicked unit transmits even when another unit is selected.
 
-Each activation takes a snapshot of the player's known map contacts and attempts the standard identification request once for each eligible contact. Eligible contacts are displayed as unknown surface contacts and are not already identified. Contacts outside that snapshot, aircraft, underwater contacts, weapons, and contacts with known allegiance are excluded. Duplicate track IDs are processed once. Eligibility is checked again immediately before each request.
+Each activation takes a snapshot of the player's known map contacts and attempts the standard identification request once for each eligible contact. Eligible contacts have unknown allegiance, are not already identified, and meet the target conditions of the base game's identification-request menu. Contact type does not restrict eligibility: aircraft, helicopters, and any other contact with the standard request option are included. Submerged targets, contacts outside that snapshot, and contacts with known allegiance are excluded. Duplicate track IDs are processed once. Eligibility is checked again immediately before each request.
 
 The mod invokes the game's existing identification callback. Line of sight, radio horizon, range, submerged-state restrictions, responses, refusal, nonresponse, event-log messages, and exposure of the transmitter all remain under the game's control. There are no automatic retries, automatic requests for new contacts, or forced disclosures. A successful request is not guaranteed. The command is disabled for a submerged sender. Destroyed senders cannot run it.
 
@@ -37,8 +37,8 @@ The separate game-Mono process checks callback discovery/binding and method comp
 ## Implementation
 
 - `MenuExtension`: adds the command to the existing unit menu.
-- `ContactSelection` / `BulkRequests`: select only player-visible unknown surface contacts and execute a single batch.
-- `VanillaRequests`: discovers the standard callback from the existing menu's IL and invokes it. A narrowly scoped Harmony transpiler changes only its communication sender lookup during a bulk request.
+- `ContactSelection` / `BulkRequests`: select player-visible unknown contacts with the standard request option and execute a single batch.
+- `VanillaRequests`: checks the standard menu's target conditions, discovers its callback from the existing menu's IL, and invokes it. A narrowly scoped Harmony transpiler changes only its communication sender lookup during a bulk request.
 - `RequestSource`: restores the previous request context on success and failure without touching global selection.
 - `Plugin` / `ModActivation`: respect the game's package checkbox and roll back this mod's patches on initialization failure.
 

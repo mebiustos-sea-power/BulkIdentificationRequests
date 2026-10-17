@@ -60,6 +60,13 @@ internal static class VanillaRequests
         return callback;
     }
 
+    internal static bool HasRequestOption(MapUnitViewModel target)
+    {
+        // Match the target conditions of the game's identification-request menu entry.
+        var unit = target.Unit;
+        return unit != null && !unit.BaseObject.isSubmerged();
+    }
+
     internal static void Send(ObjectBase sender, MapUnitViewModel target)
     {
         if (!Ready || request == null) throw new InvalidOperationException("Bulk identification requests are unavailable.");

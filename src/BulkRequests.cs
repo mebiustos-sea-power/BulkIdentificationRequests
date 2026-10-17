@@ -13,8 +13,8 @@ internal static class BulkRequests
     internal static bool CanSend(ObjectBase sender) => IsPlayerUnit(sender) && !sender.isSubmerged();
 
     internal static bool Eligible(MapUnitViewModel contact, Taskforce player) =>
-        ReferenceEquals(contact.OurTaskforce, player) && ContactSelection.IsUnknownShip(
-            contact.VisualType, contact.VisualPosture, contact.Unit.Identified.Value);
+        ReferenceEquals(contact.OurTaskforce, player) && VanillaRequests.HasRequestOption(contact) &&
+        ContactSelection.IsUnknownContact(contact.VisualPosture, contact.Unit.Identified.Value);
 
     internal static void Execute(ObjectBase sender)
     {
