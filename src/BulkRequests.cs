@@ -27,16 +27,13 @@ internal static class BulkRequests
             var known = model.Map?.MapKnownUnits?.AllUnits
                 ?? throw new InvalidOperationException("The player's known contacts are unavailable.");
             var targets = ContactSelection.Snapshot(known, contact => Eligible(contact, player), contact => contact.Unit.Id);
-            int attempted = 0;
             foreach (var target in targets)
             {
                 if (!CanSend(sender) || !ReferenceEquals(player, Globals._playerTaskforce) ||
                     !ReferenceEquals(model, Globals._mainGameViewModel)) break;
                 if (!known.Contains(target) || !Eligible(target, player)) continue;
                 VanillaRequests.Send(sender, target);
-                attempted++;
             }
-            ModLog.Info("Executed " + attempted + " standard identification request(s). Responses are reported by the game.");
         }
         catch (Exception error) { ModLog.Error("Bulk identification stopped", error); }
     }
