@@ -9,7 +9,7 @@ internal sealed class ModText
     private ModText(string label, string tooltip) { Label = label; Tooltip = tooltip; }
 
     internal static readonly ModText English = new ModText(
-        "Request identification from all unknown contacts",
+        "Request ID from all unknowns",
         "Send the standard identification request once to each detected unknown contact from this unit. Normal communication limits and exposure of the sender apply.");
     internal static readonly ModText Japanese = new ModText(
         "全不明接触の身元を求める",

@@ -2,7 +2,7 @@
 
 Version **0.1.1**. Plugin ID: `mebiustos.bulkidentificationrequests`. Package folder: `BulkIdentificationRequests`.
 
-Adds **Request identification from all unknown contacts** immediately below **Orders > Identify** in a player unit's right-click menu. With Japanese selected, the label is **全不明接触の身元を求める**. Other game languages use English for the added label and tooltip. The same unit menu is used by the map and formation manager.
+Adds **Request ID from all unknowns** immediately below **Orders > Identify** in a player unit's right-click menu. With Japanese selected, the label is **全不明接触の身元を求める**. Other game languages use English for the added label and tooltip. The same unit menu is used by the map and formation manager.
 
 ## Installation and use
 
