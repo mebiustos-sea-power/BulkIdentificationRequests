@@ -27,18 +27,17 @@ internal static class MenuExtension
             ObjectBase sender = ____objectBase;
             var enabled = new ReactiveProperty<bool>(VanillaRequests.Ready && BulkRequests.CanSend(sender)).ToReadOnlyReactiveProperty();
             var entry = new ContextMenuItem(text.Label, command: new DelegateCommand(_ => BulkRequests.Execute(sender)), enabled: enabled, tooltip: text.Tooltip);
-            Insert(__result, language.getText("ContextMenu", "Orders", true, true),
-                language.getText("ContextMenu", "Orders_Identify", true, true), entry);
+            Insert(__result, language.getText("ContextMenu", "Orders", true, true), entry);
         }
         catch (Exception error) { ModLog.Error("Could not add the bulk identification menu item", error); }
     }
 
-    internal static void Insert(IList<ContextMenuItem> roots, string ordersLabel, string identifyLabel, ContextMenuItem entry)
+    internal static void Insert(IList<ContextMenuItem> roots, string ordersLabel, ContextMenuItem entry)
     {
-        var orders = roots.SingleOrDefault(item => Equals(item.Label, ordersLabel))
-            ?? throw new InvalidOperationException("The unit's Orders menu was not found.");
-        var identify = orders.Items?.SingleOrDefault(item => Equals(item.Label, identifyLabel))
-            ?? throw new InvalidOperationException("The unit's Identify order was not found.");
-        orders.Items!.Insert(orders.Items.IndexOf(identify) + 1, entry);
+        var orders = roots.SingleOrDefault(item => Equals(item.Label, ordersLabel));
+        if (orders == null) return;
+        var items = orders.Items
+            ?? throw new InvalidOperationException("The unit's Orders menu has no item collection.");
+        items.Insert(0, entry);
     }
 }

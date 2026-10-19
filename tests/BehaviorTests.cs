@@ -60,9 +60,17 @@ internal static class BehaviorTests
         var info = new ContextMenuItem("info");
         var root = new TrulyObservableCollection<ContextMenuItem> { info, orders };
         var added = new ContextMenuItem("bulk");
-        MenuExtension.Insert(root, "orders", "identify", added);
-        Program.Require(root.SequenceEqual(new[] { info, orders }) && children.SequenceEqual(new[] { identify, added, rebase }), "The new action must immediately follow Identify without changing existing entries.");
-        Program.Throws<InvalidOperationException>(() => MenuExtension.Insert(root, "missing", "identify", added));
+        MenuExtension.Insert(root, "orders", added);
+        Program.Require(root.SequenceEqual(new[] { info, orders }) && children.SequenceEqual(new[] { added, identify, rebase }), "The new action must appear first in Orders without changing existing entries or their order.");
+
+        children.Remove(added);
+        children.Remove(identify);
+        MenuExtension.Insert(root, "orders", added);
+        Program.Require(children.SequenceEqual(new[] { added, rebase }), "An Orders menu without Identify must still receive the new action first.");
+
+        var withoutOrders = new TrulyObservableCollection<ContextMenuItem> { info };
+        MenuExtension.Insert(withoutOrders, "orders", added);
+        Program.Require(withoutOrders.SequenceEqual(new[] { info }) && children.SequenceEqual(new[] { added, rebase }), "A menu without Orders must be skipped without modifying any menu.");
     }
 
     public sealed class Entry
