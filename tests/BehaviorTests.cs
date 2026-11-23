@@ -18,9 +18,7 @@ internal static class BehaviorTests
         var snapshot = ContactSelection.Snapshot(contacts, contact => contact.Eligible, contact => contact.Id);
         contacts.Clear();
         Program.Require(snapshot.Select(contact => contact.Id).SequenceEqual(new[] { 2, 1 }), "Snapshot must preserve eligible order and process each track once even if the live collection changes.");
-        Program.Require(ReferenceEquals(ModText.ForLanguage("ja"), ModText.Japanese), "Japanese game settings must select Japanese.");
-        foreach (string? language in new[] { "en", "fr", "de", "cn", "ko", "es", "unknown", "", null })
-            Program.Require(ReferenceEquals(ModText.ForLanguage(language), ModText.English), "English and unsupported languages must use English.");
+        LocalizationTests.Run();
         SourceScoping();
         MenuOrdering();
         Activation();

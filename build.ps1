@@ -55,14 +55,14 @@ if ($Test) {
 $taskPackage = Join-Path $PSScriptRoot 'dist\BulkIdentificationRequests'
 New-Item -ItemType Directory -Force $taskPackage | Out-Null
 Copy-Item (Join-Path $PSScriptRoot 'src\bin\Release\netstandard2.1\BulkIdentificationRequests.dll') $taskPackage -Force
-Get-ChildItem (Join-Path $PSScriptRoot 'package') -File | ForEach-Object { Copy-Item $_.FullName $taskPackage -Force }
+Get-ChildItem (Join-Path $PSScriptRoot 'package') | ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination $taskPackage -Recurse -Force }
 Copy-Item (Join-Path $PSScriptRoot 'README.md') $taskPackage -Force
 Write-Output "Package: $taskPackage"
 if ($InstallLocal) {
     if (Get-Process -Name 'Sea Power' -ErrorAction SilentlyContinue) { throw 'Close Sea Power before installing the mod. The completed package is in dist.' }
     $taskDestination = Join-Path $GameDirectory 'Sea Power_Data\StreamingAssets\BulkIdentificationRequests'
     New-Item -ItemType Directory -Force $taskDestination | Out-Null
-    Get-ChildItem $taskPackage -File | ForEach-Object { Copy-Item $_.FullName $taskDestination -Force }
+    Get-ChildItem $taskPackage | ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination $taskDestination -Recurse -Force }
     Write-Output "Installed: $taskDestination"
     Write-Output 'Enable Bulk Identification Requests and Anchor Chain in the mod manager, then restart Sea Power.'
 }

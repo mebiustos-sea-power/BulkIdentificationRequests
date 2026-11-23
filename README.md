@@ -4,6 +4,8 @@ Version **0.1.2**. Plugin ID: `mebiustos.bulkidentificationrequests`. Package fo
 
 Adds **Request ID from all unknowns** at the top of the **Orders** submenu in a player unit's right-click menu. With Japanese selected, the label is **全不明接触の身元を求める**. Other game languages use English for the added label and tooltip. The same unit menu is used by the map and formation manager.
 
+Menu labels and tooltips use Sea Power's standard language files in `language_en/bulk_identification_requests.ini` and `language_ja/bulk_identification_requests.ini`. The game supplies English fallback for missing translations. Additional translations can use the same section and keys in another `language_<code>` folder.
+
 ## Installation and use
 
 1. Install Anchor Chain and its required BepInEx preloader.
@@ -30,7 +32,7 @@ Use the Windows .NET SDK. Copy `Directory.Build.local.props.example` to `Directo
 
 The build produces `dist/BulkIdentificationRequests`. Local installation requires the game to be closed. Tests use the installed game's assemblies and its bundled Mono runtime in a separate process, without attaching to the running game.
 
-Automated checks cover target filtering, deduplication and snapshots, English/Japanese selection and English fallback, sender scoping/restoration, and menu placement, including menus without Orders or Identify. A fixture executes the installed game's actual communication and identification-request IL with managed engine boundaries, including line of sight, radio horizon, submerged senders/targets, refusal, nonresponse, and disclosure. It does not copy those game algorithms.
+Automated checks cover target filtering, deduplication and snapshots, English/Japanese language files with the game INI parser, English fallback per key, language-handler replacement, sender scoping/restoration, and menu placement, including menus without Orders or Identify. A fixture executes the installed game's actual communication and identification-request IL with managed engine boundaries, including line of sight, radio horizon, submerged senders/targets, refusal, nonresponse, and disclosure. It does not copy those game algorithms.
 
 The separate game-Mono process checks callback discovery/binding and method compatibility against the installed game. It installs the production sender transpiler through Harmony on a managed sender boundary and verifies dispatch, normal manual behavior, selection preservation, and patch removal. It does not detour the real game methods in that process: their Unity-dependent initializers require the engine. Actual game-method patch installation, menu rendering, and battle effects remain in-game verification items.
 

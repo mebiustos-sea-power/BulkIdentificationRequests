@@ -6,6 +6,10 @@
     <FindDependenciesOfExternallyResolvedReferences>false</FindDependenciesOfExternallyResolvedReferences>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="..\package\language_en\bulk_identification_requests.ini" Link="language_en\bulk_identification_requests.ini" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\package\language_ja\bulk_identification_requests.ini" Link="language_ja\bulk_identification_requests.ini" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\src\BulkIdentificationRequests.csproj" />
     <Reference Include="UniRx" HintPath="$(SeaPowerDir)\Sea Power_Data\Managed\UniRx.dll" Private="false" ExternallyResolved="true" />
     <Reference Include="0Harmony" HintPath="$(SeaPowerDir)\BepInEx\core\0Harmony.dll" Private="false" ExternallyResolved="true" />

@@ -23,7 +23,7 @@ internal static class MenuExtension
             if (!BulkRequests.IsPlayerUnit(____objectBase)) return;
             if (!LanguageResourceHandler.InstanceExists(false)) throw new InvalidOperationException("The language handler is unavailable.");
             var language = LanguageResourceHandler.Instance;
-            var text = ModText.ForLanguage(language.Language);
+            var text = new ModText(language);
             ObjectBase sender = ____objectBase;
             var enabled = new ReactiveProperty<bool>(VanillaRequests.Ready && BulkRequests.CanSend(sender)).ToReadOnlyReactiveProperty();
             var entry = new ContextMenuItem(text.Label, command: new DelegateCommand(_ => BulkRequests.Execute(sender)), enabled: enabled, tooltip: text.Tooltip);
